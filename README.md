@@ -1,2 +1,2 @@
-# just-vc
-Verifiable Credentials
+# CI Central
+CI dashboards, etc.
