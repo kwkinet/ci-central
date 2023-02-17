@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wood, Hay and Stubble</title>
+
+  <meta name="viewport" content="width=device-width">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, sans-serif;
+    }
+    main {
+      padding: 1rem;
+    }
+    h1, h2, h3 {
+      margin: 0
+    }
+    .mb-1 {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    .projects {
+      display: grid;
+      grid-template-columns: auto min-content min-content 1fr;
+      gap: .5rem;
+
+      padding: .75rem;
+      background: #eee;
+      border-radius: 7px;
+    }
+    .projects p {
+      font-weight: 500;
+      font-size: 1.2em;
+      margin: 0 1rem 0 0;
+    }
+    .projects > a.action {
+      height: fit-content;
+    }
+
+    a.action {
+      background: #0074D9;
+      padding: .2rem .5rem;
+      border-radius: 4px;
+      color: white;
+      text-underline: none;
+      text-decoration: none;
+      font-size: .75em;
+    }
+    a.action:hover {
+      background: #0065bd;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <h1 class="mb-1">Wood, Hay and Stubble</h1>
+  <p id="ts"></p>
+  <script>
+    const dt = new Date();
+    let localTime = dt.toLocaleDateString() + " " + dt.toLocaleTimeString()
+    document.getElementById("ts").innerHTML = localTime;
+  </script>
+
+  <h2 class="mb-1">All About Authentication</h2>
+  <div class="projects">
+    <p>webauth-demo</p>
+    <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="https://cryptoalgorithm.github.io/webauthn-demo/cov-badge.svg"></a>
+    <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="https://cryptoalgorithm.github.io/webauthn-demo/test-badge.svg"></a>
+    <div></div>
+
+    <p>ctap2kit (fido2)</p>
+    <a href="https://threetaverns.github.io/ctap2kit/"><img alt="" src="https://threetaverns.github.io/ctap2kit/cov-badge.svg"></a>
+    <a href="https://threetaverns.github.io/ctap2kit/test-report"><img alt="" src="https://threetaverns.github.io/ctap2kit/test-badge.svg"></a>
+    <div></div>
+
+  </div>
+</main>
+</body>
+</html>
