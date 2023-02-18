@@ -21,7 +21,6 @@
             margin-top: 1rem;
             margin-bottom: 1rem;
         }
-
         .projects {
             display: grid;
             grid-template-columns: auto min-content min-content 1fr;
@@ -56,8 +55,15 @@
     </style>
 </head>
 <body>
+
 <main>
     <h1 class="mb-1">AI Verify - Test and Coverage Report</h1>
+    <p id="ts"></p>
+    <script>
+        const dt = new Date();
+        let localTime = dt.toLocaleDateString() + " " + dt.toLocaleTimeString()
+        document.getElementById("ts").innerHTML = localTime;
+    </script>
 
     <h2 class="mb-1">ai-verify-portal</h2>
     <div class="projects">
@@ -86,99 +92,91 @@
     <h2 class="mb-1">ai-verify-stock-plugins</h2>
     <div class="projects">
         <p>accumulated_local_effects</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-stock-plugins/accumulated_local_effects/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/ai-verify-stock-plugins/accumulated_local_effects/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-stock-plugins/accumulated_local_effects/test-report.html"><img alt="" src="../../../../PycharmProjects/ai-verify-stock-plugins/accumulated_local_effects/test-badge.svg"></a>
         <div></div>
 
-        <p>aiverify.stock.decorators</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
-        <div></div>
-
-        <p>imda_fairness_algorithm</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <p>fairness_metrics_toolbox</p>
+        <a href="../../../../PycharmProjects/ai-verify-stock-plugins/fairness_metrics_toolbox/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/ai-verify-stock-plugins/fairness_metrics_toolbox/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-stock-plugins/fairness_metrics_toolbox/test-report.html"><img alt="" src="../../../../PycharmProjects/ai-verify-stock-plugins/fairness_metrics_toolbox/test-badge.svg"></a>
         <div></div>
 
         <p>partial_dependence_plot</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-stock-plugins/partial_dependence_plot/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/ai-verify-stock-plugins/partial_dependence_plot/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-stock-plugins/partial_dependence_plot/test-report.html"><img alt="" src="../../../../PycharmProjects/ai-verify-stock-plugins/partial_dependence_plot/test-badge.svg"></a>
         <div></div>
+
+        <p>performance_metrics_toolbox</p>
+        <a href="../../../../PycharmProjects/ai-verify-stock-plugins/performance_metrics_toolbox/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/ai-verify-stock-plugins/performance_metrics_toolbox/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-stock-plugins/performance_metrics_toolbox/test-report.html"><img alt="" src="../../../../PycharmProjects/ai-verify-stock-plugins/performance_metrics_toolbox/test-badge.svg"></a>
+        <div></div>
+
     </div>
 
     <h2 class="mb-1">ai-verify-test-engine</h2>
     <div class="projects">
-        <p>test-engine-algo-plugin-template</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
-        <div></div>
-
         <p>test-engine-app</p>
-        <a href="../../../../PycharmProjects/test-engine-app/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-app/cov-badge.svg"></a>
-        <a href="../../../../PycharmProjects/test-engine-app/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-app/test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-test-engine/test-engine-app/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/ai-verify-test-engine/test-engine-app/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-test-engine/test-engine-app/test-report.html"><img alt="" src="../../../../PycharmProjects/ai-verify-test-engine/test-engine-app/test-badge.svg"></a>
         <div></div>
 
         <p>test-engine-core</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-test-engine/test-engine-core/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/ai-verify-test-engine/test-engine-core/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/ai-verify-test-engine/test-engine-core/test-report.html"><img alt="" src="../../../../PycharmProjects/ai-verify-test-engine/test-engine-core/test-badge.svg"></a>
         <div></div>
 
-        <p>test-engine-core-modules-template</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
-        <div></div>
     </div>
 
     <h2 class="mb-1">test-engine-core-modules</h2>
     <div class="projects">
         <p>delimiterserializer</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/delimiterserializer/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/delimiterserializer//cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/delimiterserializer/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/delimiterserializer//test-badge.svg"></a>
         <div></div>
 
         <p>joblibserializer</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/joblibserializer/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/joblibserializer/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/joblibserializer/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/joblibserializer/test-badge.svg"></a>
         <div></div>
 
         <p>lightgbmmodel</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/lightgbmmodel/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/lightgbmmodel/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/lightgbmmodel/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/lightgbmmodel/test-badge.svg"></a>
         <div></div>
 
         <p>openapimodel</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/openapimodel/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/openapimodel/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/openapimodel/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/openapimodel/test-badge.svg"></a>
         <div></div>
 
         <p>pandasdata</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/pandasdata/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/pandasdata/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/pandasdata/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/pandasdata/test-badge.svg"></a>
         <div></div>
 
         <p>pickleserializer</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/pickleserializer/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/pickleserializer/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/pickleserializer/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/pickleserializer/test-badge.svg"></a>
         <div></div>
 
         <p>sklearnmodel</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/sklearnmodel/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/sklearnmodel/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/sklearnmodel/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/sklearnmodel/test-badge.svg"></a>
         <div></div>
 
         <p>tensorflowmodel</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/tensorflowmodel/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/tensorflowmodel/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/tensorflowmodel/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/tensorflowmodel/test-badge.svg"></a>
         <div></div>
 
         <p>tensorflowserializer</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/tensorflowserializer/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/tensorflowserializer/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/tensorflowserializer/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/tensorflowserializer/test-badge.svg"></a>
         <div></div>
 
         <p>xgboostmodel</p>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/"><img alt="" src="../cov-badge.svg"></a>
-        <a href="https://cryptoalgorithm.github.io/webauthn-demo/test-report"><img alt="" src="../test-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/xgboostmodel/htmlcov/index.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/xgboostmodel/cov-badge.svg"></a>
+        <a href="../../../../PycharmProjects/test-engine-core-modules/xgboostmodel/test-report.html"><img alt="" src="../../../../PycharmProjects/test-engine-core-modules/xgboostmodel/test-badge.svg"></a>
         <div></div>
 
     </div>
