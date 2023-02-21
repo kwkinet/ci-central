@@ -2,7 +2,7 @@
   "devDependencies": {
     "@jest/globals": "^29.4.2",
     "badge-maker": "^3.3.1",
-    "jest": "^29.4.2",
+    "jest": "^29.4.3",
     "jest-html-reporter": "^3.7.0",
     "ts-jest": "^29.0.5"
   },
