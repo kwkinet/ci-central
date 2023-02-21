@@ -1,4 +1,6 @@
-// Create shields.io badge for code coverage stat
+// Create badge icons for tests and coverage.
+// Usage: node createBadges.js <coverage-badge-filename> <tests-badge-filename>
+
 const fs = require('fs')
 const {makeBadge} = require('badge-maker')
 
@@ -10,14 +12,12 @@ let color = 'green'
 if (covPct < 20) color = 'red'
 else if (covPct < 70) color = '#ffa500' // orange_2
 
-let covBadgeFile = process.argv[2] == null? "cov-badge.svg" : process.argv[2]
 const covBadge = {
     label: 'coverage',
     message: covPct.toFixed(0) + '%',
     color: color
 }
 const covSvg = makeBadge(covBadge)
-fs.writeFileSync(covBadgeFile, covSvg)
 
 // Create badge for shields.io
 // const covBadge = {
@@ -35,16 +35,29 @@ const numPassedTests = testSummary.numPassedTests
 const numFailedTests = testSummary.numFailedTests
 color = numPassedTests != 0 && numFailedTests == 0? 'green' : 'red'
 
-let testBadgeFile = process.argv[3] == null? "test-badge.svg" : process.argv[3]
 const testBadge = {
     label: 'tests',
     message: numPassedTests + " passed, " + numFailedTests + " failed",
     color: color
 }
 const testSvg = makeBadge(testBadge)
-fs.writeFileSync(testBadgeFile, testSvg)
-console.log(`Created ${covBadgeFile} and ${testBadgeFile}`)
 
+// Write badge files.
+let covBadgeFile = process.argv[2] == null? "cov-badge.svg" : process.argv[2]
+let testBadgeFile = process.argv[3] == null? "test-badge.svg" : process.argv[3]
+fs.writeFile(covBadgeFile, covSvg, err => {
+    if (err) {
+        console.log(`Error writing ${covBadgeFile}: ${err.message}`)
+        process.exit(1)
+    }
+    fs.writeFile(testBadgeFile, testSvg, err => {
+        if (err) {
+            console.log(`Error writing ${testBadgeFile}: ${err.message}`)
+            process.exit(1)
+        }
+        console.log(`Created ${covBadgeFile} and ${testBadgeFile}`)
+    })
+})
 
 
 
