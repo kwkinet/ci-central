@@ -1,8 +1,11 @@
 // Create badge icons for tests and coverage.
-// Usage: node createBadges.js <coverage-badge-filename> <tests-badge-filename>
+// Usage: node createBadges.mjs <coverage-badge-filename> <tests-badge-filename>
 
-const fs = require('fs')
-const {makeBadge} = require('badge-maker')
+import fs  from 'fs'
+import { makeBadge } from 'badge-maker'
+
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
 
 // Create coverage badge
 const covSummary = require('../coverage/coverage-summary.json')
@@ -43,8 +46,8 @@ const testBadge = {
 const testSvg = makeBadge(testBadge)
 
 // Write badge files.
-let covBadgeFile = process.argv[2] == null? "cov-badge.svg" : process.argv[2]
-let testBadgeFile = process.argv[3] == null? "test-badge.svg" : process.argv[3]
+let covBadgeFile = process.argv[2] == undefined? "cov-badge.svg" : process.argv[2]
+let testBadgeFile = process.argv[3] == undefined? "test-badge.svg" : process.argv[3]
 fs.writeFile(covBadgeFile, covSvg, err => {
     if (err) {
         console.log(`Error writing ${covBadgeFile}: ${err.message}`)
@@ -58,6 +61,3 @@ fs.writeFile(covBadgeFile, covSvg, err => {
         console.log(`Created ${covBadgeFile} and ${testBadgeFile}`)
     })
 })
-
-
-
