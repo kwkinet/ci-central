@@ -2,7 +2,7 @@
   "devDependencies": {
     "@jest/globals": "^29.4.2",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
+    "@typescript-eslint/parser": "^5.54.1",
     "badge-maker": "^3.3.1",
     "eslint": "^8.34.0",
     "eslint-formatter-html": "^2.4.0",
