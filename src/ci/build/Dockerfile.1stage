@@ -1,0 +1,156 @@
+# Build the combined docker image
+ARG GIT_LOC=gitlab.com/imda_dsl/t2po
+
+###########################################################
+# Build stage for Node repos
+###########################################################
+
+FROM ubuntu:22.04 AS final
+
+# Install node v19.x
+RUN apt-get update && apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_19.x | bash -
+RUN apt-get update && apt-get install -y nodejs
+
+# Install python 3.10
+RUN apt update
+RUN apt install -y python3.10
+RUN python3 --version
+
+WORKDIR /app
+
+# Install Git
+RUN apt update && apt install -y git
+
+ARG GIT_LOC
+ARG ACCESS_TOKEN
+
+# Clone portal repos
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-portal/ai-verify-apigw.git --branch=fix-env-redis-db ./portal/ai-verify-apigw
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-portal/ai-verify-shared-library.git ./portal/ai-verify-shared-library
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-portal/ai-verify-portal.git --branch=fix-nextjs-prod-build ./portal/ai-verify-portal
+
+# Install dependencies and build each repo
+WORKDIR /app/portal/ai-verify-shared-library
+RUN npm install && npm run build
+WORKDIR /app/portal/ai-verify-portal
+COPY ../env/portal.env .env.local
+COPY --chmod=0755 ../script/start-all.sh .
+RUN npm install
+RUN npm run build
+WORKDIR /app/portal/ai-verify-apigw
+COPY ../env/apigw.env .env
+RUN npm install
+
+# Clone widget & decorator plugins
+WORKDIR /app
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-stock-plugins/aiverify.stock.decorators.git ./widgets/decorators
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-stock-plugins/aiverify.stock.fairness-metrics-toolbox-widgets.git ./widgets/fairness-metrics-toolbox-widgets
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-stock-plugins/aiverify.stock.process-checklist.git ./widgets/process-checklist
+
+# Install dependencies and build each repo
+WORKDIR /app/widgets/decorators
+RUN npm install && npm run zip
+WORKDIR /app/widgets/fairness-metrics-toolbox-widgets
+RUN npm install && npm run zip
+WORKDIR /app/widgets/process-checklist
+RUN npm install && npm run zip
+
+WORKDIR /app
+RUN apt-get install unzip
+
+WORKDIR /app/portal/ai-verify-portal
+RUN mkdir -p ./plugins
+RUN unzip /app/widgets/decorators/aiverify.stock.decorators-*.zip -d ./plugins/decorator
+RUN unzip /app/widgets/fairness-metrics-toolbox-widgets/aiverify.stock.fairness-metrics-toolbox-widgets-*.zip -d ./plugins/fairness-metrics-toolbox
+RUN unzip /app/widgets/process-checklist/aiverify.stock.process-checklist-*.zip -d ./plugins/process-checklist
+
+RUN rm -rf /app/widgets
+
+
+###########################################################
+# Build stage for Python repos
+###########################################################
+
+# Install virtualenv
+RUN apt install -y python3.10-venv
+
+ARG TAG_NAME="checkpoint-20230224"
+
+WORKDIR /app
+
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Clone test engine repos
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core.git --branch=${TAG_NAME} ./test-engine/test-engine-core
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-app.git --branch=${TAG_NAME} ./test-engine/test-engine-app
+
+WORKDIR /app/test-engine/test-engine-core
+RUN pip install -r requirements.txt
+
+WORKDIR /app/test-engine/test-engine-app
+RUN pip install -r requirements.txt
+RUN pip install ../test-engine-core/dist/test_engine_core-1.0.0.tar.gz
+
+# Create env file
+COPY ../env/test-engine-app.env .env
+
+WORKDIR /app
+
+# CLone test engine core modules
+# Serializers
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core-modules/joblibserializer.git --branch=$TAG_NAME ./test-engine/modules/joblibserializer
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core-modules/pickleserializer.git --branch=$TAG_NAME ./test-engine/modules/pickleserializer
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core-modules/tensorflowserializer.git --branch=$TAG_NAME ./test-engine/modules/tensorflowserializer
+# Models
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core-modules/lightgbmmodel.git --branch=$TAG_NAME ./test-engine/modules/lightgbmmodel
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core-modules/openapimodel.git --branch=$TAG_NAME ./test-engine/modules/openapimodel
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core-modules/sklearnmodel.git --branch=$TAG_NAME ./test-engine/modules/sklearnmodel
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core-modules/xgboostmodel.git --branch=$TAG_NAME ./test-engine/modules/xgboostmodel
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core-modules/tensorflowmodel.git --branch=$TAG_NAME ./test-engine/modules/tensorflowmodel
+# Data
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-test-engine/test-engine-core-modules/pandasdata.git --branch=$TAG_NAME ./test-engine/modules/pandasdata
+
+WORKDIR /app/test-engine/modules
+RUN find ./ -type f -name 'requirements.txt' -exec pip install -r "{}" \;
+
+WORKDIR /app
+
+# Clone stock algo plugins
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-stock-plugins/aiverify.stock.algorithms.accumulated_local_effects.git ./algos/accumulated_local_effects
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-stock-plugins/aiverify.stock.algorithms.fairness_metrics_toolbox.git ./algos/fairness_metrics_toolbox
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-stock-plugins/aiverify.stock.algorithms.partial_dependence_plot.git ./algos/partial_dependence_plot
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-stock-plugins/aiverify.stock.algorithms.performance_metrics_toolbox.git ./algos/performance_metrics_toolbox
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GIT_LOC}/ai-verify/ai-verify-stock-plugins/aiverify.stock.algorithms.shap_toolbox.git ./algos/shap_toolbox
+
+WORKDIR /app/portal/ai-verify-portal
+RUN unzip /app/algos/accumulated_local_effects/dist/*.zip -d ./plugins/accumulated_local_effects
+RUN unzip /app/algos/partial_dependence_plot/dist/*.zip -d ./plugins/partial_dependence_plot
+RUN unzip /app//algos/performance_metrics_toolbox/dist/*.zip -d ./plugins/performance_metrics_toolbox
+RUN unzip /app/algos/shap_toolbox/dist/*.zip -d ./plugins/shap_toolbox
+
+RUN rm -rf /app/algos
+
+###########################################################
+# Final stage
+###########################################################
+
+WORKDIR /app
+
+# Test engine core modules
+#COPY --from=python-build /app/test-engine/modules/joblibserializer ./test-engine/test-engine-app/core_modules/serializers/joblibserializer
+#COPY --from=python-build /app/test-engine/modules/pickleserializer ./test-engine/test-engine-app/core_modules/serializers/pickleserializer
+#COPY --from=python-build /app/test-engine/modules/tensorflowserializer ./test-engine/test-engine-app/core_modules/serializers/tensorflowserializer
+#COPY --from=python-build /app/test-engine/modules/lightgbmmodel ./test-engine/test-engine-app/core_modules/models/lightgbmmodel
+#COPY --from=python-build /app/test-engine/modules/openapimodel ./test-engine/test-engine-app/core_modules/models/openapimodel
+#COPY --from=python-build /app/test-engine/modules/sklearnmodel ./test-engine/test-engine-app/core_modules/models/sklearnmodel
+#COPY --from=python-build /app/test-engine/modules/xgboostmodel ./test-engine/test-engine-app/core_modules/models/xgboostmodel
+#COPY --from=python-build /app/test-engine/modules/tensorflowmodel ./test-engine/test-engine-app/core_modules/models/tensorflowmodel
+#COPY --from=python-build /app/test-engine/modules/pandasdata ./test-engine/test-engine-app/core_modules/data/pandasdata
+
+# Widget & decorator plugins
+#COPY --from=node-build /app/plugins/decorators ./plugins/decorators
+#COPY --from=node-build /app/plugins/fairness-metrics-toolbox-widgets ./plugins/fairness-metrics-toolbox-widgets
+#COPY --from=node-build /app/plugins/process-checklist ./plugins/process-checklist
+

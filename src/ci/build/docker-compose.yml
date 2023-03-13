@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - ./data/redis:/data
+      - ./log/redis:/var/log/redis
+    networks:
+      - app-network
+
+  db:
+    image: mongo:6.0.4
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${MONGO_ROOT_USER:-mongodb}'
+      MONGO_INITDB_ROOT_PASSWORD: '${MONGO_ROOT_PASSWORD:-mongodb}'
+      MONGO_INITDB_DATABASE: admin
+      MONGO_AIVERIFY_PASSWORD: '${DB_AIVERIFY_PASSWORD:-aiverify}'
+    volumes:
+      - ./data/db:/data/db
+      - ./log/db:/var/log/mongodb
+      - ./mongo-init:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+  test-engine:
+    image: ai-verify-0.1
+    restart: always
+    depends_on:
+      - redis
+    command: python3 -m test_engine_app
+    working_dir: /app/test-engine/test-engine-app
+    networks:
+      - app-network
+
+  portal:
+    image: ai-verify-0.1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - db
+    working_dir: /app/portal/ai-verify-portal
+    command: bash -c "cd ../ai-verify-apigw && node app.mjs & cd ../ai-verify-portal && npm run start"
+#    command: npm run start
+    networks:
+      - app-network
+
+#  api-gw:
+#    image: ai-verify-0.1
+#    working_dir: /app/portal/ai-verify-apigw
+#    command: ["node", "app.js"]
+
+#volumes:
+#  ./db_data:
+#    driver: local
+#  ./db_log:
+#    driver: local
+#  ./redis_data:
+#    driver: local
+#  ./redis_log:
+#    driver: local
+
+networks:
+  app-network:
+    driver: bridge
