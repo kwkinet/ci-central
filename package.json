@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@jest/globals": "^29.4.2",
+    "@jest/globals": "^29.5.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "badge-maker": "^3.3.1",
